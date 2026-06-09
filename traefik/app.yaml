@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://helm.traefik.io/traefik
+    chart: traefik
+    targetRevision: "30.1.0"   # pin a version, check latest at https://artifacthub.io/packages/helm/traefik/traefik
+    helm:
+      values: |
+        deployment:
+          replicas: 1
+
+        ingressClass:
+          enabled: true
+          isDefaultIngressClass: true
+
+        providers:
+          kubernetesCRD:
+            enabled: true       # enables IngressRoute support
+          kubernetesIngress:
+            enabled: true       # enables standard Ingress support
+
+        ports:
+          web:
+            port: 8000
+            exposedPort: 80
+          websecure:
+            port: 8443
+            exposedPort: 443
+
+        service:
+          type: LoadBalancer
+
+        # optional: enable dashboard
+        ingressRoute:
+          dashboard:
+            enabled: true
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: traefik          # will be created by ArgoCD if syncPolicy below is set
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true    # creates the traefik namespace automatically
