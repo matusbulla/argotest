@@ -10,35 +10,35 @@ spec:
     chart: traefik
     targetRevision: "40.2.0"   # pin a version, check latest at https://artifacthub.io/packages/helm/traefik/traefik
     helm:
-      values: |
-        deployment:
-          replicas: 1
+      # values: |
+      #   deployment:
+      #     replicas: 1
 
-        ingressClass:
-          enabled: true
-          isDefaultIngressClass: true
+      #   ingressClass:
+      #     enabled: true
+      #     isDefaultIngressClass: true
 
-        providers:
-          kubernetesCRD:
-            enabled: true       # enables IngressRoute support
-          kubernetesIngress:
-            enabled: true       # enables standard Ingress support
+      #   providers:
+      #     kubernetesCRD:
+      #       enabled: true       # enables IngressRoute support
+      #     kubernetesIngress:
+      #       enabled: true       # enables standard Ingress support
 
-        ports:
-          web:
-            port: 8000
-            exposedPort: 80
-          websecure:
-            port: 8443
-            exposedPort: 443
+      #   ports:
+      #     web:
+      #       port: 8000
+      #       exposedPort: 80
+      #     websecure:
+      #       port: 8443
+      #       exposedPort: 443
 
-        service:
-          type: LoadBalancer
+      #   service:
+      #     type: LoadBalancer
 
-        # optional: enable dashboard
-        ingressRoute:
-          dashboard:
-            enabled: true
+      #   # optional: enable dashboard
+      #   ingressRoute:
+      #     dashboard:
+      #       enabled: true
 
   destination:
     server: https://kubernetes.default.svc
