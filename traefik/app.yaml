@@ -16,6 +16,11 @@ spec:
 
         service:
           type: LoadBalancer
+        
+        ports:
+          traefik:
+            expose:
+              default: true
 
         # optional: enable dashboard
         ingressRoute:
