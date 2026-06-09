@@ -11,18 +11,20 @@ spec:
     targetRevision: "40.2.0"   # pin a version, check latest at https://artifacthub.io/packages/helm/traefik/traefik
     helm:
       values: |
-        deployment:
-          replicas: 1
-        
-        ports:
-          traefik:
-            expose:
-              default: true
-
-        # optional: enable dashboard
         ingressRoute:
           dashboard:
             enabled: true
+            matchRule: Host(`dashboard.localhost`)
+            entryPoints:
+              - web
+        providers:
+          kubernetesGateway:
+            enabled: true
+        gateway:
+          listeners:
+            web:
+              namespacePolicy:
+                from: All
 
   destination:
     server: https://kubernetes.default.svc
