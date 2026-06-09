@@ -13,9 +13,6 @@ spec:
       values: |
         deployment:
           replicas: 1
-
-        service:
-          type: LoadBalancer
         
         ports:
           traefik:
